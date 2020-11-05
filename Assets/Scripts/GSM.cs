@@ -15,9 +15,21 @@ public class GSM : MonoBehaviour
   public float maxRowTimer;
   private bool hasTruckStarted;
 
-
-
+  private static GSM _instance;
+  public static GSM Instance { get { return _instance; } }
   private void Awake()
+  {
+    if (_instance != null && _instance != this)
+    {
+      Destroy(this.gameObject);
+    }
+    else
+    {
+      _instance = this;
+    }
+  }
+
+  private void Start()
   {
     newRowTimer = 5f;
     hasTruckStarted = false;
@@ -32,12 +44,14 @@ public class GSM : MonoBehaviour
     newRowTimer -= Time.deltaTime;
     if (newRowTimer < 0)
     {
-      Board.Instance.createNewRow();
-      //
+      maxRowTimer = Mathf.Max(maxRowTimer - 0.25f, 3.5f);
+      newRowTimer = maxRowTimer;
+
+      bool makeIce = false;
+      if (maxRowTimer <= 7) makeIce = true;
+      Board.Instance.createNewRow(makeIce);
       hasTruckStarted = false;
 
-      maxRowTimer = Mathf.Max(STARTING_ROW_TIMER - 0.5f, 3.5f);
-      newRowTimer = maxRowTimer;
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
     {

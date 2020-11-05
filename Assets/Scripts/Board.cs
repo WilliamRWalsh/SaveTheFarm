@@ -22,12 +22,12 @@ public class Board : MonoBehaviour
     {
       _instance = this;
     }
-
-    UserController.OnAnimalsToRemove += handleAnimalsToRemove;
   }
 
   private void Start()
   {
+    UserController.OnAnimalsToRemove += handleAnimalsToRemove;
+
     for (int r = 0; r < rows; r++)
     {
       for (int c = 0; c < cols; c++)
@@ -35,10 +35,10 @@ public class Board : MonoBehaviour
         boardState[r, c] = false;
       }
     }
-    GenerateBoard(5);
+    GenerateBoard(4);
   }
 
-  public void createNewRow()
+  public void createNewRow(bool makeIce)
   {
 
     for (int r = rows - 1; r >= 0; r--)
@@ -66,8 +66,12 @@ public class Board : MonoBehaviour
 
     for (int c = 0; c < cols; c++)
     {
-      board[0, c] = NewAnimal(0, c);
+
+      AnimalController animal = NewAnimal(0, c);
+      board[0, c] = animal;
       boardState[0, c] = true;
+
+      if (makeIce && c > 0 && c < cols - 1) animal.freeze();
     }
   }
 

@@ -21,9 +21,6 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   {
     turnOffGlow();
     setAnimalType();
-    // TODO: remove this so that it changes with game clock
-    int r = (int)UnityEngine.Random.Range(0, 5);
-    if (r == 0) freeze();
   }
 
   public void setCell(int r, int c)
