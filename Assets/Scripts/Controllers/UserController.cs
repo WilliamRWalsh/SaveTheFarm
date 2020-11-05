@@ -19,7 +19,8 @@ public class UserController : MonoBehaviour
 
   private void handleNewSelection(AnimalController animal)
   {
-    int newType = animal.getAnimalType();
+    if (animal.getIsIceBlock()) return;
+
     if (selectedIndex == 0)
     {
       animal.turnOnGlow();

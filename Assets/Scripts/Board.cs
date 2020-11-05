@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Board : MonoBehaviour
 {
+
   static int rows = 7;
   static int cols = 6;
 
@@ -35,69 +36,6 @@ public class Board : MonoBehaviour
       }
     }
     GenerateBoard(5);
-  }
-
-  private void GenerateBoard(int startingRows)
-  {
-    for (int r = 0; r < startingRows; r++)
-    {
-      for (int c = 0; c < cols; c++)
-      {
-        board[r, c] = NewAnimal(r, c);
-        boardState[r, c] = true;
-      }
-    }
-  }
-
-  private AnimalController NewAnimal(int r, int c)
-  {
-    AnimalController animal = AnimalPool.Instance.Get();
-    animal.setCell(r, c);
-    animal.gameObject.SetActive(true);
-    return animal;
-  }
-
-  private void handleAnimalsToRemove(AnimalController[] animals)
-  {
-    Debug.Log("handleAnimalsToRemove...");
-
-    List<int> colsToDrop = new List<int>();
-    int index;
-
-    foreach (AnimalController animal in animals)
-    {
-      (int r, int c) = animal.getCell();
-      boardState[r, c] = false;
-
-      if (!colsToDrop.Contains(c))
-      {
-        colsToDrop.Add(c);
-      }
-    }
-
-    index = 0;
-    int dropBy = 0;
-    foreach (int c in colsToDrop)
-    {
-      dropBy = 0;
-      for (int r = 0; r < rows; r++)
-      {
-        if (boardState[r, c])
-        {
-          Debug.Log("dropBy called now.");
-          board[r, c].dropBy(dropBy);
-          board[r - dropBy, c] = board[r, c];
-
-          boardState[r, c] = false;
-          boardState[r - dropBy, c] = true;
-        }
-        else
-        {
-          dropBy++;
-        }
-      }
-      index++;
-    }
   }
 
   public void createNewRow()
@@ -133,5 +71,109 @@ public class Board : MonoBehaviour
     }
   }
 
+  private void GenerateBoard(int startingRows)
+  {
+    for (int r = 0; r < startingRows; r++)
+    {
+      for (int c = 0; c < cols; c++)
+      {
+        board[r, c] = NewAnimal(r, c);
+        boardState[r, c] = true;
+      }
+    }
+  }
 
+  private AnimalController NewAnimal(int r, int c)
+  {
+    AnimalController animal = AnimalPool.Instance.Get();
+    animal.setCell(r, c);
+    animal.gameObject.SetActive(true);
+    return animal;
+  }
+
+  private void handleAnimalsToRemove(AnimalController[] animals)
+  {
+    unfreezeBlocks(animals);
+
+    List<int> colsToDrop = new List<int>();
+    int index;
+
+    foreach (AnimalController animal in animals)
+    {
+      (int r, int c) = animal.getCell();
+      boardState[r, c] = false;
+
+      if (!colsToDrop.Contains(c))
+      {
+        colsToDrop.Add(c);
+      }
+    }
+
+    index = 0;
+    int dropBy = 0;
+    foreach (int c in colsToDrop)
+    {
+      dropBy = 0;
+      for (int r = 0; r < rows; r++)
+      {
+        if (boardState[r, c])
+        {
+          board[r, c].dropBy(dropBy);
+          board[r - dropBy, c] = board[r, c];
+
+          boardState[r, c] = false;
+          boardState[r - dropBy, c] = true;
+        }
+        else
+        {
+          dropBy++;
+        }
+      }
+      index++;
+    }
+  }
+
+  private void unfreezeBlocks(AnimalController[] animals)
+  {
+    foreach (AnimalController animal in animals)
+    {
+      (int r, int c) = animal.getCell();
+
+      // Check up
+      if (r + 1 < rows)
+      {
+        if (boardState[r + 1, c] && board[r + 1, c].getIsIceBlock())
+        {
+          board[r + 1, c].unfreeze();
+        }
+      }
+
+      // Check down
+      if (r - 1 >= 0)
+      {
+        if (boardState[r - 1, c] && board[r - 1, c].getIsIceBlock())
+        {
+          board[r - 1, c].unfreeze();
+        }
+      }
+
+      // Check left
+      if (c + 1 < cols)
+      {
+        if (boardState[r, c + 1] && board[r, c + 1].getIsIceBlock())
+        {
+          board[r, c + 1].unfreeze();
+        }
+      }
+
+      // Check right
+      if (c - 1 >= 0)
+      {
+        if (boardState[r, c - 1] && board[r, c - 1].getIsIceBlock())
+        {
+          board[r, c - 1].unfreeze();
+        }
+      }
+    }
+  }
 }

@@ -13,6 +13,7 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   [SerializeField]
   private Sprite[] animalSprites;
   private int type;
+  private bool isIceBlock;
 
   private int row, col;
 
@@ -20,6 +21,9 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   {
     turnOffGlow();
     setAnimalType();
+    // TODO: remove this so that it changes with game clock
+    int r = (int)UnityEngine.Random.Range(0, 5);
+    if (r == 0) freeze();
   }
 
   public void setCell(int r, int c)
@@ -51,6 +55,23 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   public int getAnimalType()
   {
     return type;
+  }
+
+  public bool getIsIceBlock()
+  {
+    return isIceBlock;
+  }
+
+  public void unfreeze()
+  {
+    isIceBlock = false;
+    this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+  }
+
+  public void freeze()
+  {
+    isIceBlock = true;
+    this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
   }
 
   public void turnOnGlow()
