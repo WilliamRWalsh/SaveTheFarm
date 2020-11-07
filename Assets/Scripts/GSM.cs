@@ -8,7 +8,6 @@ public class GSM : MonoBehaviour
 
   // Events to send
   public static event Action onStartTruck = delegate { };
-  public static event Action onCreateNewRow = delegate { };
 
   private float STARTING_ROW_TIMER = 8f;
   private int STATE = 0;
@@ -63,9 +62,6 @@ public class GSM : MonoBehaviour
 
       Board.Instance.createNewRow(numIceBlocks);
       hasTruckStarted = false;
-
-      // TODO: Call score event
-
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
     {
