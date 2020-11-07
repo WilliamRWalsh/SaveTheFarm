@@ -10,6 +10,18 @@ public class Board : MonoBehaviour
   private AnimalController[,] board = new AnimalController[rows, cols];
   public bool[,] boardState = new bool[rows, cols];
 
+  static int numPatterns = 3;
+
+
+  bool[,] iceBlockPatterns = new bool[,] {
+    { false, false, false, false, false, false },
+    { false, false, true, true, false, false },
+    { false, false, true, true, true, false },
+    { false, false, true, true, false, false },
+    { false, false, true, true, false, false },
+    { false, false, true, true, false, false },
+    };
+
   private static Board _instance;
   public static Board Instance { get { return _instance; } }
   private void Awake()
@@ -36,11 +48,11 @@ public class Board : MonoBehaviour
       }
     }
     GenerateBoard(4);
+
   }
 
-  public void createNewRow(bool makeIce)
+  public void createNewRow(int numIceBlocks)
   {
-
     for (int r = rows - 1; r >= 0; r--)
     {
       for (int c = 0; c < cols; c++)
@@ -64,15 +76,20 @@ public class Board : MonoBehaviour
       }
     }
 
+    int startIceIndex = (int)UnityEngine.Random.Range(0, 7 - numIceBlocks);
     for (int c = 0; c < cols; c++)
     {
-
       AnimalController animal = NewAnimal(0, c);
       board[0, c] = animal;
       boardState[0, c] = true;
 
-      if (makeIce && c > 0 && c < cols - 1) animal.freeze();
+      if (c >= startIceIndex && numIceBlocks > 0)
+      {
+        numIceBlocks -= 1;
+        animal.freeze();
+      }
     }
+
   }
 
   private void GenerateBoard(int startingRows)

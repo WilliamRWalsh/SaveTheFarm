@@ -8,6 +8,7 @@ public class GSM : MonoBehaviour
 
   // Events to send
   public static event Action onStartTruck = delegate { };
+  public static event Action onCreateNewRow = delegate { };
 
   private float STARTING_ROW_TIMER = 8f;
   private int STATE = 0;
@@ -47,10 +48,23 @@ public class GSM : MonoBehaviour
       maxRowTimer = Mathf.Max(maxRowTimer - 0.25f, 3.5f);
       newRowTimer = maxRowTimer;
 
-      bool makeIce = false;
-      if (maxRowTimer <= 7) makeIce = true;
-      Board.Instance.createNewRow(makeIce);
+      // TODO: Make pattern after playing around
+      int numIceBlocks = 0;
+      if (maxRowTimer <= 7.5)
+        numIceBlocks = 2;
+      if (maxRowTimer <= 7)
+        numIceBlocks = 3;
+      if (maxRowTimer <= 6)
+        numIceBlocks = 4;
+      if (maxRowTimer <= 5.5)
+        numIceBlocks = 3;
+      if (maxRowTimer <= 4.5)
+        numIceBlocks = 4;
+
+      Board.Instance.createNewRow(numIceBlocks);
       hasTruckStarted = false;
+
+      // TODO: Call score event
 
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
