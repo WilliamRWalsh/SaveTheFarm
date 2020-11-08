@@ -7710,7 +7710,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_Sprite: {fileID: 21300000, guid: f7375090ffacf334eb3368c7f26f4854, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8024,7 +8024,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 94cc54c8b6f18a846a596594940b8adf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9354,7 +9354,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -3
+  m_SortingOrder: -4
   m_Sprite: {fileID: 21300000, guid: f7375090ffacf334eb3368c7f26f4854, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9374,7 +9374,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622823295}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.25, y: 0.93, z: 0}
+  m_LocalPosition: {x: -4.12, y: 0.69, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 489169472}
@@ -12259,8 +12259,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 820744344}
-  - component: {fileID: 820744343}
   - component: {fileID: 820744342}
+  - component: {fileID: 820744343}
   m_Layer: 0
   m_Name: SoundsEngine
   m_TagString: Untagged
@@ -12279,7 +12279,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -12373,9 +12373,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 820744341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096a85c52c9a9214d92a5975123a6938, type: 3}
+  m_Script: {fileID: 11500000, guid: e0bd1b8f47774764e8553fb8edbde076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LowPitchRange: 0.95
+  HighPitchRange: 1.05
+  select: {fileID: 8300000, guid: a18030945619aa54bb5568755f2f2d84, type: 3}
+  badSelect: {fileID: 8300000, guid: 801205d1322451c4c8af6e8c0189b967, type: 3}
+  removeBlocks: {fileID: 8300000, guid: 8cf4894540a189a4f9a4ece0e411664d, type: 3}
+  iceBroken: {fileID: 8300000, guid: 531b2a49b0c13e7488e0005d19ebeb69, type: 3}
+  gameOver: {fileID: 8300000, guid: 0567b9b199bd03b4eb72507888e14f75, type: 3}
+  animalDropOff: {fileID: 8300000, guid: 2913c59b019ffe342b6209bd7af8c443, type: 3}
 --- !u!4 &820744344
 Transform:
   m_ObjectHideFlags: 0

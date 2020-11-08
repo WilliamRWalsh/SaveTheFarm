@@ -59,12 +59,11 @@ public class Board : MonoBehaviour
       {
         if (boardState[r, c])
         {
-          if (rows == r)
+          if (rows == r + 1)
           {
             // Send GameOver Event
             return;
           }
-
           AnimalController animal = board[r, c];
 
           boardState[r, c] = false;

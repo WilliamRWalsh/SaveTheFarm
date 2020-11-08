@@ -8,6 +8,7 @@ public class GSM : MonoBehaviour
 
   // Events to send
   public static event Action onStartTruck = delegate { };
+  public static event Action OnGameOver = delegate { };
 
   private float STARTING_ROW_TIMER = 8f;
   private int STATE = 0;
