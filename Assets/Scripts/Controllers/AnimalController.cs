@@ -14,13 +14,44 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   private Sprite[] animalSprites;
   private int type;
   private bool isIceBlock;
-
+  private float startingScale = 0.1f;
+  private float maxScale = 0.9f;
   private int row, col;
+  private float moveSpeed = 10f;
+  private bool hasTarget = false;
+  private Vector3 target;
+  private float stopDistance = 0.05f;
 
   private void OnEnable()
   {
+    hasTarget = false;
     turnOffGlow();
     setAnimalType();
+    gameObject.transform.localScale = new Vector3(startingScale, startingScale, 1);
+  }
+
+  private void FixedUpdate()
+  {
+
+    if (gameObject.transform.localScale.x < maxScale)
+    {
+      float delta = Time.deltaTime;
+      gameObject.transform.localScale += new Vector3(1.4f * delta, 1.4f * delta, 0);
+    }
+    else if (gameObject.transform.localScale.x != maxScale)
+    {
+      gameObject.transform.localScale = new Vector3(maxScale, maxScale, 1);
+    }
+
+    if (hasTarget && Vector3.Distance(transform.position, target) < stopDistance)
+    {
+      setCell(row, col);
+      hasTarget = false;
+    }
+    else if (hasTarget)
+    {
+      moveToTarget();
+    }
   }
 
   public void setCell(int r, int c)
@@ -31,11 +62,24 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
     col = c;
   }
 
+  private void moveToTarget()
+  {
+    transform.position = Vector3.Lerp(transform.position, target, moveSpeed * Time.deltaTime);
+  }
+
+  public void setTarget(int r, int c)
+  {
+    hasTarget = true;
+    target = new Vector3(-2.5f + c, -4 + r, 0);
+    row = r;
+    col = c;
+  }
+
   public void dropBy(int num)
   {
-    print("dropping by " + num);
     // TODO: transform instead of set
-    setCell(row - num, col);
+    // setCell(row - num, col);
+    setTarget(row - num, col);
   }
 
   public (int, int) getCell()

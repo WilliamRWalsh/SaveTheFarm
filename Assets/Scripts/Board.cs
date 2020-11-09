@@ -70,7 +70,7 @@ public class Board : MonoBehaviour
           boardState[r + 1, c] = true;
           board[r + 1, c] = board[r, c];
 
-          animal.setCell(r + 1, c);
+          animal.setTarget(r + 1, c);
         }
       }
     }
