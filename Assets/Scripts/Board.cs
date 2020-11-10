@@ -47,7 +47,7 @@ public class Board : MonoBehaviour
         boardState[r, c] = false;
       }
     }
-    GenerateBoard(4);
+    // GenerateBoard(4);
 
   }
 

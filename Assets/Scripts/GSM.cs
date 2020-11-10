@@ -61,7 +61,7 @@ public class GSM : MonoBehaviour
       if (maxRowTimer <= 4.5)
         numIceBlocks = 4;
 
-      Board.Instance.createNewRow(numIceBlocks);
+      // Board.Instance.createNewRow(numIceBlocks);
       hasTruckStarted = false;
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
