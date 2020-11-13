@@ -52,7 +52,6 @@ public class UserController : MonoBehaviour
     if (selectedIndex == 3)
     {
       // dispatch event to remove the animals
-      foreach (AnimalController sa in selectedAnimals) AnimalPool.Instance.ReturnToPool(sa);
       OnAnimalsToRemove(selectedAnimals);
       selectedAnimals = new AnimalController[3];
       selectedIndex = 0;

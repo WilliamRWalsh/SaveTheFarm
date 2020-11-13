@@ -4,24 +4,52 @@ using UnityEngine;
 
 public class Menu : MonoBehaviour
 {
-  private bool isMoving = false;
+  private bool isStarting = false;
+  private bool isRestarting = false;
   private float moveSpeed = 1.5f;
-  private Vector3 target = new Vector3(0, 13, 0);
+  private Vector3 offScreenTarget = new Vector3(0, 13, 0);
+  private Vector3 middleTarget = new Vector3(0, -0.78f, 0);
+  private Vector3 bottomTarget = new Vector3(0, -10, 0);
 
   void Start()
   {
     StartBtn.OnStartBtnPressed += HandleOnStartBtnPressed;
+    GSM.OnGameOver += HandleGameOver;
   }
   void Update()
   {
-    if (isMoving) Move();
+    if (isStarting) MoveOffScreen();
+    if (isRestarting) MoveMiddle();
   }
-  void Move()
+  void MoveOffScreen()
   {
-    transform.position = Vector3.Lerp(transform.position, target, moveSpeed * Time.deltaTime);
+    transform.position = Vector3.Lerp(transform.position, offScreenTarget, moveSpeed * Time.deltaTime);
+    if (Mathf.Abs(transform.position.y - offScreenTarget.y) < .5)
+    {
+      transform.position = bottomTarget;
+      isStarting = false;
+    }
+  }
+  void MoveMiddle()
+  {
+    transform.position = Vector3.Lerp(transform.position, middleTarget, moveSpeed * Time.deltaTime);
+    if (Mathf.Abs(transform.position.y - middleTarget.y) < 0.03)
+    {
+      transform.position = middleTarget;
+      isRestarting = false;
+    }
   }
   void HandleOnStartBtnPressed()
   {
-    isMoving = true;
+    moveSpeed = 1.5f;
+    isStarting = true;
+    isRestarting = false;
+  }
+  void HandleGameOver()
+  {
+    moveSpeed = 3f;
+    isStarting = false;
+    isRestarting = true;
+    this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 1);
   }
 }

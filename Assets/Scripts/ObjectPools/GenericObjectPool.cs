@@ -18,19 +18,22 @@ public abstract class GenericObjectPool<T> : MonoBehaviour where T : Component
   {
     if (objects.Count == 0)
       AddObject();
-    return objects.Dequeue();
+
+    var newObject = objects.Dequeue();
+    if (newObject.gameObject.activeSelf != true) newObject.gameObject.SetActive(true);
+    return newObject;
   }
 
   public void ReturnToPool(T objectToReturn)
   {
-    objectToReturn.gameObject.SetActive(false);
+    if (objectToReturn.gameObject.activeSelf != false) objectToReturn.gameObject.SetActive(false);
     objects.Enqueue(objectToReturn);
   }
 
   private void AddObject()
   {
     var newObject = GameObject.Instantiate(prefab);
-    newObject.gameObject.SetActive(false);
+    if (newObject.gameObject.activeSelf != false) newObject.gameObject.SetActive(false);
     objects.Enqueue(newObject);
   }
 }

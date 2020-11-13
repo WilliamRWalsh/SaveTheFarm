@@ -15,11 +15,18 @@ public class ScoreController : MonoBehaviour
   {
     score = 0;
     UserController.OnAnimalsToRemove += IncreaseScore;
+    StartBtn.OnStartBtnPressed += ClearScore;
   }
 
   private void IncreaseScore(AnimalController[] animals)
   {
     score++;
+    RenderScore(score);
+  }
+
+  private void ClearScore()
+  {
+    score = 0;
     RenderScore(score);
   }
 

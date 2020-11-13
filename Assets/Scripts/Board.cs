@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using System;
 
 public class Board : MonoBehaviour
 {
@@ -49,7 +51,8 @@ public class Board : MonoBehaviour
     }
   }
 
-  public void createNewRow(int numIceBlocks)
+  public bool CreateNewRow(int numIceBlocks)
+  // Returns true if game is over
   {
     for (int r = rows - 1; r >= 0; r--)
     {
@@ -59,8 +62,7 @@ public class Board : MonoBehaviour
         {
           if (rows == r + 1)
           {
-            // Send GameOver Event
-            return;
+            return true;
           }
           AnimalController animal = board[r, c];
 
@@ -87,10 +89,13 @@ public class Board : MonoBehaviour
       }
     }
 
+    return false;
   }
 
   public void GenerateBoard(int startingRows)
   {
+    ClearBoard();
+
     for (int r = 0; r < startingRows; r++)
     {
       for (int c = 0; c < cols; c++)
@@ -101,11 +106,26 @@ public class Board : MonoBehaviour
     }
   }
 
+  private void ClearBoard()
+  {
+    for (int r = 0; r < rows; r++)
+    {
+      for (int c = 0; c < cols; c++)
+      {
+        if (board[r, c] != null)
+        {
+          AnimalPool.Instance.ReturnToPool(board[r, c]);
+        }
+        board[r, c] = null;
+        boardState[r, c] = false;
+      }
+    }
+  }
+
   private AnimalController NewAnimal(int r, int c)
   {
     AnimalController animal = AnimalPool.Instance.Get();
     animal.setCell(r, c);
-    animal.gameObject.SetActive(true);
     return animal;
   }
 
@@ -120,6 +140,7 @@ public class Board : MonoBehaviour
     {
       (int r, int c) = animal.getCell();
       boardState[r, c] = false;
+      board[r, c] = null;
 
       if (!colsToDrop.Contains(c))
       {
@@ -134,21 +155,26 @@ public class Board : MonoBehaviour
       dropBy = 0;
       for (int r = 0; r < rows; r++)
       {
-        if (boardState[r, c])
+        if (dropBy > 0 && boardState[r, c])
         {
-          board[r, c].dropBy(dropBy);
-          board[r - dropBy, c] = board[r, c];
-
-          boardState[r, c] = false;
+          AnimalController animal = board[r, c];
+          animal.dropBy(dropBy);
+          board[r - dropBy, c] = animal;
           boardState[r - dropBy, c] = true;
+
+          board[r, c] = null;
+          boardState[r, c] = false;
         }
-        else
+        else if (!boardState[r, c])
         {
           dropBy++;
         }
       }
       index++;
     }
+
+    /* Remove animals */
+    foreach (AnimalController animal in animals) AnimalPool.Instance.ReturnToPool(animal);
   }
 
   private void unfreezeBlocks(AnimalController[] animals)

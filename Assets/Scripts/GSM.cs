@@ -36,7 +36,6 @@ public class GSM : MonoBehaviour
     StartBtn.OnStartBtnPressed += onStartGame;
 
     state = State.MENU;
-    newRowTimer = 5f;
     hasTruckStarted = false;
 
     //TODO: Call on StartGame Event
@@ -79,7 +78,11 @@ public class GSM : MonoBehaviour
       if (maxRowTimer <= 4.5)
         numIceBlocks = 4;
 
-      Board.Instance.createNewRow(numIceBlocks);
+      if (Board.Instance.CreateNewRow(numIceBlocks))
+      {
+        state = State.GAME_OVER;
+        OnGameOver();
+      }
       hasTruckStarted = false;
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
@@ -93,6 +96,13 @@ public class GSM : MonoBehaviour
   {
     state = State.IN_GAME;
     Board.Instance.GenerateBoard(4);
+    setGSMValues();
   }
 
+  void setGSMValues()
+  {
+    hasTruckStarted = false;
+    newRowTimer = STARTING_ROW_TIMER;
+    maxRowTimer = STARTING_ROW_TIMER;
+  }
 }

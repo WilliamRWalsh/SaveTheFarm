@@ -16,8 +16,10 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   private bool isIceBlock;
   private float startingScale = 0.1f;
   private float maxScale = 0.9f;
+  [SerializeField]
   private int row, col;
   private float moveSpeed = 10f;
+  [SerializeField]
   private bool hasTarget = false;
   private Vector3 target;
   private float stopDistance = 0.05f;
@@ -26,6 +28,7 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
   {
     hasTarget = false;
     turnOffGlow();
+    unfreeze();
     setAnimalType();
     gameObject.transform.localScale = new Vector3(startingScale, startingScale, 1);
   }
@@ -56,6 +59,9 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
 
   public void setCell(int r, int c)
   {
+    //TODO: Move SetActive elsewhere (probably object pool get)
+    this.gameObject.name = r + ", " + c;
+
     Vector3 newPosition = new Vector3(-2.5f + c, -4 + r, 0);
     transform.position = newPosition;
     row = r;
@@ -77,8 +83,6 @@ public class AnimalController : MonoBehaviour, IPointerClickHandler
 
   public void dropBy(int num)
   {
-    // TODO: transform instead of set
-    // setCell(row - num, col);
     setTarget(row - num, col);
   }
 
