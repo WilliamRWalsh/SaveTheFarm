@@ -41,7 +41,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer
+  - name: Other
     uniqueID: 3636770741
     locked: 0
   - name: Animal
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Backgroud
     uniqueID: 3606434919
+    locked: 0
+  - name: UI
+    uniqueID: 2869570891
     locked: 0

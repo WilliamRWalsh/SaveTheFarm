@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class StartBtn : MonoBehaviour
+public class StartBtn : Button
 {
-	public static event Action OnStart = delegate { };
+  public static event Action OnStartBtnPressed = delegate { };
 
-	public void ButtonedPressed()
-	{
-		OnStart();
-	}
+  protected override void onUp()
+  {
+    OnStartBtnPressed();
+  }
 }

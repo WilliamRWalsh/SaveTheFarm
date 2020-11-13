@@ -4,14 +4,14 @@ using System;
 
 public class GSM : MonoBehaviour
 {
-
+  enum State { MENU, STARTING, IN_GAME, GAME_OVER }
 
   // Events to send
   public static event Action onStartTruck = delegate { };
   public static event Action OnGameOver = delegate { };
 
   private float STARTING_ROW_TIMER = 8f;
-  private int STATE = 0;
+  private State state = 0;
   public float newRowTimer;
   public float maxRowTimer;
   private bool hasTruckStarted;
@@ -28,10 +28,14 @@ public class GSM : MonoBehaviour
     {
       _instance = this;
     }
+
   }
 
   private void Start()
   {
+    StartBtn.OnStartBtnPressed += onStartGame;
+
+    state = State.MENU;
     newRowTimer = 5f;
     hasTruckStarted = false;
 
@@ -42,6 +46,20 @@ public class GSM : MonoBehaviour
 
   private void Update()
   {
+    switch (state)
+    {
+      case State.IN_GAME:
+        InGame();
+        break;
+      default:
+        break;
+    }
+
+  }
+
+  private void InGame()
+  {
+
     newRowTimer -= Time.deltaTime;
     if (newRowTimer < 0)
     {
@@ -61,7 +79,7 @@ public class GSM : MonoBehaviour
       if (maxRowTimer <= 4.5)
         numIceBlocks = 4;
 
-      // Board.Instance.createNewRow(numIceBlocks);
+      Board.Instance.createNewRow(numIceBlocks);
       hasTruckStarted = false;
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
@@ -69,6 +87,12 @@ public class GSM : MonoBehaviour
       onStartTruck();
       hasTruckStarted = true;
     }
+  }
+
+  void onStartGame()
+  {
+    state = State.IN_GAME;
+    Board.Instance.GenerateBoard(4);
   }
 
 }

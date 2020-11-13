@@ -47,8 +47,6 @@ public class Board : MonoBehaviour
         boardState[r, c] = false;
       }
     }
-    // GenerateBoard(4);
-
   }
 
   public void createNewRow(int numIceBlocks)
@@ -91,7 +89,7 @@ public class Board : MonoBehaviour
 
   }
 
-  private void GenerateBoard(int startingRows)
+  public void GenerateBoard(int startingRows)
   {
     for (int r = 0; r < startingRows; r++)
     {

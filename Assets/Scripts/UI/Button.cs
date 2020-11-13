@@ -12,14 +12,22 @@ public class Button : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
   void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
   {
-    Debug.Log("Down");
     this.GetComponent<SpriteRenderer>().sprite = buttonDown;
+    onDown();
   }
 
   void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
   {
-    Debug.Log("Up");
     this.GetComponent<SpriteRenderer>().sprite = buttonUp;
+    onUp();
   }
 
+  protected virtual void onDown()
+  {
+    return;
+  }
+
+  protected virtual void onUp()
+  {
+  }
 }
