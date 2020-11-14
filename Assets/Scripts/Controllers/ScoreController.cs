@@ -37,13 +37,14 @@ public class ScoreController : MonoBehaviour
     if (score < 10)
     {
       this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = digitSprites[digits[0]];
+      this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+      this.gameObject.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
     }
     else if (score < 100)
     {
       this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = digitSprites[digits[1]];
       this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = digitSprites[digits[0]];
       this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
-
     }
     else
     {
