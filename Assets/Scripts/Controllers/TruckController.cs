@@ -7,7 +7,7 @@ public class TruckController : MonoBehaviour
   private float speedX = 2f;
   private float waitTimer = .7f;
 
-  public void Start()
+  private void OnEnable()
   {
     waitTimer = .7f;
     transform.position = new Vector2(-4.87f, transform.position.y);
@@ -28,7 +28,6 @@ public class TruckController : MonoBehaviour
     {
       waitTimer -= Time.deltaTime;
     }
-
     if (transform.position.x > 20) TruckPool.Instance.ReturnToPool(this);
   }
 }
