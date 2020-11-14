@@ -87,7 +87,7 @@ public class GSM : MonoBehaviour
     }
     else if (!hasTruckStarted && newRowTimer < 2.6f)
     {
-      onStartTruck();
+      TruckController truck = TruckPool.Instance.Get();
       hasTruckStarted = true;
     }
   }
