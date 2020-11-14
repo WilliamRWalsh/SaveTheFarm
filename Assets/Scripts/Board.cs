@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using System;
+using EZCameraShake;
 
 public class Board : MonoBehaviour
 {
@@ -179,6 +180,7 @@ public class Board : MonoBehaviour
 
   private void unfreezeBlocks(AnimalController[] animals)
   {
+    bool unfrozen = false;
     foreach (AnimalController animal in animals)
     {
       (int r, int c) = animal.getCell();
@@ -189,6 +191,7 @@ public class Board : MonoBehaviour
         if (boardState[r + 1, c] && board[r + 1, c].getIsIceBlock())
         {
           board[r + 1, c].unfreeze();
+          unfrozen = true;
         }
       }
 
@@ -198,6 +201,7 @@ public class Board : MonoBehaviour
         if (boardState[r - 1, c] && board[r - 1, c].getIsIceBlock())
         {
           board[r - 1, c].unfreeze();
+          unfrozen = true;
         }
       }
 
@@ -207,6 +211,7 @@ public class Board : MonoBehaviour
         if (boardState[r, c + 1] && board[r, c + 1].getIsIceBlock())
         {
           board[r, c + 1].unfreeze();
+          unfrozen = true;
         }
       }
 
@@ -216,8 +221,12 @@ public class Board : MonoBehaviour
         if (boardState[r, c - 1] && board[r, c - 1].getIsIceBlock())
         {
           board[r, c - 1].unfreeze();
+          unfrozen = true;
         }
       }
     }
+    if (unfrozen) CameraShaker.Instance.ShakeOnce(1f, 1f, .5f, .1f);
+
+
   }
 }
