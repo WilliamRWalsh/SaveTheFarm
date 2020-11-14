@@ -6,14 +6,8 @@ public class TruckController : MonoBehaviour
 {
   private float speedX = 2f;
   private float waitTimer = .7f;
-  // Update is called once per frame
 
-  private void Awake()
-  {
-    GSM.onStartTruck += handleStartTruck;
-  }
-
-  public void handleStartTruck()
+  public void Start()
   {
     waitTimer = .7f;
     transform.position = new Vector2(-4.87f, transform.position.y);
@@ -34,5 +28,7 @@ public class TruckController : MonoBehaviour
     {
       waitTimer -= Time.deltaTime;
     }
+
+    if (transform.position.x > 20) TruckPool.Instance.ReturnToPool(this);
   }
 }
