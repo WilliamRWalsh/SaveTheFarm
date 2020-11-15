@@ -225,8 +225,7 @@ public class Board : MonoBehaviour
         }
       }
     }
-    if (unfrozen) CameraShaker.Instance.ShakeOnce(1f, 1f, .5f, .1f);
 
-
+    //if (unfrozen) CameraShaker.Instance.ShakeOnce(1f, 1f, .2f, .2f);
   }
 }

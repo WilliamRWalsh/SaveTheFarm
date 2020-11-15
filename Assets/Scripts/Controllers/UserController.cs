@@ -11,14 +11,19 @@ public class UserController : MonoBehaviour
 
   private AnimalController[] selectedAnimals = new AnimalController[3];
   private int selectedIndex = 0;
+  private bool canSelect = false;
 
   private void Awake()
   {
     AnimalController.OnAnimalSelected += handleNewSelection;
+    GSM.OnGameOver += GameOver;
+    StartBtn.OnStartBtnPressed += GameStart;
   }
 
   private void handleNewSelection(AnimalController animal)
   {
+    if (!canSelect) return;
+
     if (animal.getIsIceBlock()) return;
 
     if (selectedIndex == 0)
@@ -46,8 +51,13 @@ public class UserController : MonoBehaviour
         }
       }
       selectedAnimals = new AnimalController[3];
-      selectedIndex = 0;
+      animal.turnOnGlow();
+      selectedAnimals[0] = animal;
+      selectedIndex = 1;
     }
+
+
+
 
     if (selectedIndex == 3)
     {
@@ -67,4 +77,7 @@ public class UserController : MonoBehaviour
     return false;
   }
 
+
+  void GameOver() { canSelect = false; }
+  void GameStart() { canSelect = true; }
 }
